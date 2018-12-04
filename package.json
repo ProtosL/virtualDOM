@@ -4,7 +4,7 @@
   "description": "create a virtualDOM",
   "main": "index.js",
   "scripts": {
-    "babel": "babel index.js -o compiled.js",
+    "babel": "babel index.js -o compiled.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
