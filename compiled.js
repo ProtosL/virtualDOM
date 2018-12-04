@@ -12,6 +12,29 @@ function createElement(node) {
     return $el;
 }
 
+function changed(node1, node2) {
+    return typeof node1 !== typeof node2 || typeof node1 === 'string' && node1 !== node2 || node1.type !== node2.type;
+}
+
+function updateElement($parent, newNode, oldNode, index = 0) {
+    if (!oldNode) {
+        // 新增节点
+        $parent.appendChild(createElement(newNode));
+    } else if (!newNode) {
+        // 删除节点
+        $parent.removeChild($parent.childNodes[index]);
+    } else if (changed(newNode, oldNode)) {
+        //修改节点
+        $parent.replaceChild(createElement(newNode), $parent.childNodes[index]);
+    } else if (newNode.type) {
+        const newLength = newNode.children.length;
+        const oldLength = oldNode.children.length;
+        for (let i = 0; i < newLength || i < oldLength; i++) {
+            updateElement($parent.childNodes[index], newNode.children[i], oldNode.children[i], i);
+        }
+    }
+}
+
 const a = h(
     'ul',
     { className: 'list' },
@@ -27,5 +50,25 @@ const a = h(
     )
 );
 
+const b = h(
+    'ul',
+    { className: 'list' },
+    h(
+        'li',
+        null,
+        'item 1'
+    ),
+    h(
+        'li',
+        null,
+        'hello'
+    )
+);
+
 const $root = document.getElementById('root');
-$root.appendChild(createElement(a));
+const $reload = document.getElementById('reload');
+
+updateElement($root, a);
+$reload.addEventListener('click', () => {
+    updateElement($root, b, a);
+});
