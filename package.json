@@ -1,0 +1,27 @@
+{
+  "name": "virtualdom",
+  "version": "1.0.0",
+  "description": "create a virtualDOM",
+  "main": "index.js",
+  "scripts": {
+    "babel": "babel index.js -o compiled.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProtosL/virtualDOM.git"
+  },
+  "keywords": [
+    "virtualDOM"
+  ],
+  "author": "ProtosL",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ProtosL/virtualDOM/issues"
+  },
+  "homepage": "https://github.com/ProtosL/virtualDOM#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1"
+  }
+}
