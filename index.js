@@ -1,6 +1,6 @@
 /** @jsx h */
 function h (type, props, ...children) {
-    return { type, props, children }
+    return { type, props: props || {}, children }
 }
 
 function createElement (node) {
@@ -8,6 +8,7 @@ function createElement (node) {
         return document.createTextNode(node)
     }
     const $el = document.createElement(node.type)
+    setProps($el, node.props)
     node.children.map(createElement).forEach($el.appendChild.bind($el))
     return $el
 }
@@ -39,10 +40,41 @@ function updateElement ($parent, newNode, oldNode, index = 0) {
     }
 }
 
+function setProp ($target, name, value) {
+    if (name === 'className') {
+        $target.setAttribute('class', value)
+    } else if (typeof value === 'boolean') {
+        setBooleanProp($target, name, value)
+    } else {
+        $target.setAttribute(name, value)
+    }
+}
+
+function setBooleanProp ($target, name, value) {
+    if (value) {
+        $target.setAttribute(name, value)
+        $target[name] = true
+    } else {
+        $target[name] = false
+    }
+}
+
+function setProps ($target, props) {
+    Object.keys(props).forEach(name => {
+        setProp($target, name, props[name])
+    })
+}
+
+ // class为关键字 所以用className代替
 const a = (
-    <ul className="list">
+    <ul className="list" style="list-style: none">
         <li>item 1</li>
-        <li>item 2</li>
+        <li>
+            <button disabled={true}>disabled</button>
+            <button disabled={false}>enabled</button>
+            <input type="checkbox" checked={true}/>
+            <input type="checkbox" checked={false}/>
+        </li>
     </ul>
 )
 
